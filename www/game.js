@@ -3,49 +3,54 @@
 var game = new Phaser.Game(800,600,Phaser.AUTO,'game',
   {preload:preload,create:create,update:update,render:render});
 
-var players;
+var player;
 var ship;
+var background;
+var missile;
+var enemy;
+var cursors;
 
 function preload() {
   game.stage.backgroundcolor = '#4444FF';
   game.load.image('background', 'space.gif');
   game.load.image('player', 'player.gif');
   game.load.image('background', 'background.png');
-  game.load.image('player', 'player.png');
 }
 
 
 function create() {
   background = game.add.tileSprite(0,0,800,600, 'background');
   background.autoScroll(-100,0);
+  missile = game.add.sprite(60,350, 'missile');
   player = game.add.sprite(20,300, 'player');
-  missle = game.add.sprite(
+  enemy = game.add.sprite(600,300, 'enemy');
   game.physics.enable(player, Phaser.Physics.ARCADE);
+  game.physics.enable(missile, Phaser.Physics.ARCADE);
+  game.physics.enable(enemy, Phaser.Physics.ARCADE);
   cursors = game.input.keyboard.createCursorKeys();
-  enemy.angle += -90;
-  ship.scale.x = -5;
-  ship.scale.y = -5;
+  player.scale.x = .5;
+  player.scale.y = .5
 }
 
 function update() {
-game.physics.arcade.overlap(missle, enemy, collisionHandler, null, this);
+  game.physics.arcade.overlap(missile, enemy, collisionHandler, null, this);
 
-player.body.velocity.x = 0;
-player.body.velocity.y = 0;
+  player.body.velocity.x = 0;
+  player.body.velocity.y = 0;
 
-if (! missle.shooting) {
-  missle.body.velocity.x = 0;
-  missle.body.velocity.y = 0;
-  missle.x = player.x + 105;
-  missle.y = player.y + 72;
-  missle.renderable = true;
- }
+  if (! missile.shooting) {
+    missile.body.velocity.x = 0;
+    missile.body.velocity.y = 0;
+    missile.x = player.x + 105;
+    missile.y = player.y + 72;
+  }
 
-if missle x
 
- //move up
- if (cursors.up.isdown)
-   player.body.velocity.y = 300;
+
+  //move up
+  if (cursors.up.isdown) player.body.velocity.y = 300;
+}
+
 function render() {
 }
 
@@ -62,4 +67,4 @@ function missileReset() {
   missile.x = player.x
   missile.y = player.y
   missile.renderable = true;
-}
+  }
